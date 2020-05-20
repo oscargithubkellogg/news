@@ -18,13 +18,78 @@
     <!-- Your own CSS -->
     <link rel="stylesheet" href="/styles.css">
 
-    <title>News</title>
+    <title>News and weather</title>
   </head>
+
   <body>
 
-    <div class="container mt-5">
-      <h1>News</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col text-left">
+            <hr class="my-4">
+            <h1>Weather and news webpage </h1>
+            </div>
+        </div>
     </div>
+
+
+    <div class="container mt-5">
+
+      <h2> In Evanston, it is currently <%= @current_temperature %> and <%= @current_weather_descr %>  </h2>
+
+
+    <div class="row">
+        <div class="col text-center">
+            <hr class="my-4">
+            <h2>Weather forcast for today and the next 6 days <i class="fas fa-cloud-sun-rain"></i></h2>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">Day</th>
+            <th scope="col">Temperature (min)</th>
+            <th scope="col">Temperature (max)</th>
+            <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% for day in @forecast["daily"].slice(0, 7) %>
+            <tr>
+            <td><%= Time.at(day["dt"]).strftime("%a") %> </td>
+            <td><%= day["temp"]["min"] %></td>
+            <td><%= day["temp"]["max"] %></td>
+            <td><%= day["weather"][0]["description"] %></td>
+            </tr>
+        <% end %>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <hr class="my-4">
+                <h2>12 most recent news headlines <i class="far fa-newspaper"></i></h2>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <% for instance in @news["articles"].slice(0, 12) %>
+            <div class="col-sm-4 text-center">
+                <p><%= instance["title"] %> </p>
+                <a href="<%= instance["url"] %>" class="btn btn-info">Full article</a>
+            </div>
+            <% end %>
+        </div>
+    </div>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
